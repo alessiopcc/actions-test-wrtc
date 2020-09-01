@@ -1,0 +1,54 @@
+name: Scheduled build
+on:
+  schedule:
+    - cron: '0 4 * * 1'
+
+jobs:
+  linux:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - run: sudo apt install libncurses5
+      - run: python build.py --last --cpu x64 --os linux --no-log
+
+  linux-x86:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - run: sudo apt install libncurses5
+      - run: python build.py --last --cpu x86 --os linux --no-log
+
+  linux-arm:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - run: sudo apt install libncurses5
+      - run: python build.py --last --cpu arm --os linux --no-log
+
+  linux-arm64:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - run: sudo apt install libncurses5
+      - run: python build.py --last --cpu arm64 --os linux --no-log
+
+  macos:
+    runs-on: macos-latest
+    steps:
+      - uses: actions/checkout@v2
+      - run: python build.py --last --cpu x64 --os mac --no-log
+
+  windows:
+    runs-on: windows-latest
+    steps:
+      - uses: actions/checkout@v2
+      - run: python build.py --last --cpu x64 --os win --no-log
+      - uses: actions/upload-artifact@v2
+        with:
+          path: '*.zip'
+
+  windows-x86:
+    runs-on: windows-latest
+    steps:
+      - uses: actions/checkout@v2
+      - run: python build.py --last --cpu x86 --os win --no-log
